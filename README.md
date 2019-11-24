@@ -9,6 +9,8 @@ Just open index.html and it will work :)
 If you know git, checkout to the branch 'es6' for a cleaner ES6 version (but could not work in all browsers)
 
 ### Credits
+Original version - https://github.com/rubnvp/vue-pokedex
+
 Nice input from @Takumari85: https://codepen.io/Takumari85/pen/RaYwpJ
 
 Nice checkbox from [@hansmaad](https://twitter.com/hansmaad): https://codepen.io/hansmaad/pen/qaGrQL
