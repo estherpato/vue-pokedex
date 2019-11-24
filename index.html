@@ -1,90 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <link rel="shortcut icon" href="images/favicon.ico">
-      <title>Vue Pokedex</title>
-      <!-- CSS -->
-      <link rel="stylesheet" href="style.css">
-      <!-- <style>[v-cloak]{display: none;}</style> -->
-   </head>
-   <body>
-      <!-- Header -->
-      <header class="main-header">
-         Vue - Pokedex
-      </header>
-      <!-- Content -->
-      <div id="app" class="main-content" v-cloak>
-         <!-- Left Side Filters -->
-         <aside class="pokedex-filters">
-            <!-- Searchbox -->
-            <div class="nice-input-wrapper">
-               <input type="text" placeholder="Search by name" class="nice-input">
-               <span class="focus-border"><i></i></span>
-            </div>
-            <!-- Type Filters -->
-            <p class="checkboxes-list-title">Type</p>
-            <div class="checkboxes-list">
-               <!-- Type Selector -->
-               <div class="md-checkbox">
-                  <input id="checkbox-grass" type="checkbox" value="grass">
-                  <label for="checkbox-grass">
-                     <i class="material-icons" style="color: rgb(120, 200, 80);">lens</i>
-                     <span class="label-title">grass</span>
-                  </label>
-               </div>
-               <!-- Type Selector -->
-               <div class="md-checkbox">
-                  <input id="checkbox-poison" type="checkbox" value="poison">
-                  <label for="checkbox-poison">
-                     <i class="material-icons" style="color: rgb(160, 64, 160);">lens</i>
-                     <span class="label-title">poison</span>
-                  </label>
-               </div>
 
-            </div>
-         </aside>
-         <!-- Pokemons View -->
-         <main class="main-view">
-            <!-- Full Pokemons List in: https://raw.githubusercontent.com/rubnvp/vue-pokedex/master/data/pokemons.json -->
-            <article class="pokemons-list">
-               <!-- Pokemon Card -->
-               <div class="pokemon-card">
-                  <div class="background-wrapper">
-                     <div style="background-color: rgb(160, 64, 160);"></div>
-                     <div style="background-color: rgb(120, 200, 80);"></div>
-                  </div>
-                  <span class="remove-pokemon">
-                     <i class="material-icons">close</i>
-                  </span> 
-                  <div class="image-wrapper">
-                     <img src="images/pokemons/bulbasaur.png" alt="bulbasaur" class="pokemon-image">
-                  </div>
-                  <div class="pokemon-title">
-                     bulbasaur
-                  </div>
-               </div>
-               <!-- Pokemon Card -->
-               <div class="pokemon-card">
-                  <div class="background-wrapper">
-                     <div style="background-color: rgb(160, 64, 160);"></div>
-                     <div style="background-color: rgb(120, 200, 80);"></div>
-                  </div>
-                  <span class="remove-pokemon">
-                     <i class="material-icons">close</i>
-                  </span> 
-                  <div class="image-wrapper">
-                     <img src="images/pokemons/ivysaur.png" alt="bulbasaur" class="pokemon-image">
-                  </div>
-                  <div class="pokemon-title">
-                     ivysaur
-                  </div>
-               </div>
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <link rel="shortcut icon" href="images/favicon.ico">
+   <title>Vue Pokedex</title>
+   <!-- CSS -->
+   <link rel="stylesheet" href="style.css">
+   <!-- <style>[v-cloak]{display: none;}</style> -->
+</head>
 
-            </article>
-         </main>
-      </div>
-   </body>
+<body>
+   <!-- Header -->
+   <header class="main-header">
+      Vue - Pokedex
+   </header>
+   <!-- Content -->
+   <div id="app" class="main-content" v-cloak>
+      <!-- Left Side Filters -->
+      <aside class="pokedex-filters">
+         <!-- Searchbox -->
+         <div class="nice-input-wrapper">
+            <input v-model="searchText" type="text" placeholder="Search by name" class="nice-input">
+            <span class="focus-border"><i></i></span>
+         </div>
+         <!-- Type Filters -->
+         <p class="checkboxes-list-title">Type</p>
+         <div class="checkboxes-list">
+            <!-- Type Selector -->
+            <div class="md-checkbox">
+               <input id="checkbox-grass" type="checkbox" value="grass">
+               <label for="checkbox-grass">
+                  <i class="material-icons" style="color: rgb(120, 200, 80);">lens</i>
+                  <span class="label-title">grass</span>
+               </label>
+            </div>
+            <!-- Type Selector -->
+            <div class="md-checkbox">
+               <input id="checkbox-poison" type="checkbox" value="poison">
+               <label for="checkbox-poison">
+                  <i class="material-icons" style="color: rgb(160, 64, 160);">lens</i>
+                  <span class="label-title">poison</span>
+               </label>
+            </div>
+
+         </div>
+      </aside>
+      <!-- Pokemons View -->
+      <main class="main-view">
+         <!-- Full Pokemons List in: https://api.jsonbin.io/b/5ab37f77989617146bd6eb29 -->
+         <article class="pokemons-list">
+            <!-- Pokemon Card -->
+            <div v-for="pokemon in filteredPokemons" :key="pokemon.id" class="pokemon-card">
+               <div class="background-wrapper">
+                  <div :style="'background-color: ' + COLORS[pokemon.types[0]]"></div>
+                  <!-- <div :style="'background-color: ' + COLORS[pokemon.types[1]]"></div> -->
+               </div>
+               <span class="remove-pokemon" @click="removePokemon(pokemon)">
+                  <i class="material-icons">close</i>
+               </span>
+               <div class="image-wrapper">
+                  <!-- v-bind: se puede dejar como : solo delante del atributo -->
+                  <img v-bind:src="pokemon.image" alt="bulbasaur" class="pokemon-image">
+               </div>
+               <div class="pokemon-title">
+                  {{ pokemon.name }}
+               </div>
+            </div>
+            <!-- Pokemon Card -->
+            <!-- <div class="pokemon-card">
+               <div class="background-wrapper">
+                  <div style="background-color: rgb(160, 64, 160);"></div>
+                  <div style="background-color: rgb(120, 200, 80);"></div>
+               </div>
+               <span class="remove-pokemon">
+                  <i class="material-icons">close</i>
+               </span>
+               <div class="image-wrapper">
+                  <img src="images/pokemons/ivysaur.png" alt="bulbasaur" class="pokemon-image">
+               </div>
+               <div class="pokemon-title">
+                  ivysaur
+               </div>
+            </div> -->
+
+         </article>
+      </main>
+   </div>
+
+   <script src="https://unpkg.com/vue"></script>
+   <script src="main.js"></script>
+</body>
+
 </html>
